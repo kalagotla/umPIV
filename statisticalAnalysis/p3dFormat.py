@@ -39,3 +39,6 @@ def p3dFormat(X, Y, flowData, psize):
     
     
     return
+
+# Test file can be run using expPlane.py file.
+# All the required parameters are provided in there.

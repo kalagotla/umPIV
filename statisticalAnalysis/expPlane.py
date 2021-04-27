@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
 def expPlane(folderpath):
     """
     This script reads in the particle data files outputted by xTrack3
-    expPlane('../../xTrack3/output/umPIV/281/')
+    expPlane('../../xTrack3/output/umData/281/Z281*')
     Output: Experimental plane Num-PIV data in p3d format
     By: Dilip Kalagotla ~ kal @ dilip.kalagotla@gmail.com
     Date created: 04-21/2021
@@ -16,7 +17,7 @@ def expPlane(folderpath):
     from scipy.interpolate import griddata
     import dask.dataframe as dd
     import re
-    from p3dFormat import p3dFormat
+    import p3dFormat as p3d  # Explicitly sepcify
     
     
     startTime = time.time()
@@ -56,8 +57,10 @@ def expPlane(folderpath):
     
     flowData = [uPIV, vPIV, wPIV]
     
-    p3dFormat(X, Y, flowData, psize)
+    # Explicity using p3d instead of "from plot3d import *"
+    p3d.p3dFormat(X, Y, flowData, psize)
     
+    # To test if the code is working uncomment below
     # fig, ax = plt.subplots()
     # ax.contourf(X ,Y, uPIV, np.linspace(0, 1, 100), cmap='jet')
     # ax.set_xlabel('X(mm)')
@@ -72,3 +75,8 @@ def expPlane(folderpath):
     
     
     return
+
+# Test run
+if __name__ == "__main__":
+    expPlane('/home/kalagodk/docStuff/xTrack3/output/umData/281/Z281.*')
+    
