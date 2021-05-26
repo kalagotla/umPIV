@@ -10,35 +10,23 @@ def expPlane(folderpath):
     By: Dilip Kalagotla ~ kal @ dilip.kalagotla@gmail.com
     Date created: 04-21/2021
     """
-    
+    import sys
+    sys.path.append("../")
     import numpy as np
     import matplotlib.pyplot as plt
     import time
     from scipy.interpolate import griddata
-    import dask.dataframe as dd
-    import re
     import p3dFormat as p3d  # Explicitly sepcify
+    from readFiles import readFiles
     
+    psize, df = readFiles(folderpath)
     
     startTime = time.time()
-    # x --> particle location
-    # v --> particle velocity
-    # u --> fluid velocity
-    # a --> drag acceleration
-    # av --> particle acceleration
-    # au --> fluid acceleration
-    # dt --> time step
-    # cellNum --> cell number
-    columns = ['x0', 'x1', 'x2', 'v0', 'v1', 'v2', 'u0', 'u1', 'u2',
-               'a0', 'a1', 'a2', 'av0', 'av1', 'av2', 'au0', 'au1', 'au2',
-               'dt', 'cellNum']
     
-    psize = list(map(int, re.findall(r'\d+', folderpath)))[-1]
-    df = dd.read_csv(folderpath, delim_whitespace=True, names=columns)
-    
+    # convert from computational domain to exp plane (in mm)
     df["x"] = 25.4 * (2.75 * df.x0 * 1000 - 38.265)
     df["y"] = 25.4 * 2.75 * df.x2 * 1000
-    df["z"] = 25.4 * 2.75 * df.x1 * 1000 - 1.125
+    df["z"] = 25.4 * (2.75 * df.x1 * 1000 - 1.125)
     
     df = df[(df.x.between(17.7, 65.0)) & (df.y.between(0.01, 20))]
     
