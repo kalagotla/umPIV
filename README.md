@@ -1,34 +1,36 @@
 By: Dilip Kalagotla ~ kal @ dilip.kalagotla@gmail.com
 Date created: 04-25/2021
 
-Script to create **NPIV** data in explerimental plane for **UM Wind Tunnel**
-Input the folder with data files Eg: "xTrack3/output/umPIV/280/Z280.\*"
-Run **python runProcess.py** for a preset automated execution
+Script to create **NPIV** data in explerimental plane for **UM Wind Tunnel**<br />
+Input the folder with data files Eg: "xTrack3/output/umPIV/280/Z280.\*"<br />
+Run **python runProcess.py** for a preset automated execution<br />
 
-**Note:** The script uses *alive_progress* to create animation. Install to run
-[Credit: rsalmei](https://github.com/rsalmei/alive-progress)
+**Note:** The script uses *alive_progress* to create animation. Install to run<br />
+[Credit: rsalmei](https://github.com/rsalmei/alive-progress)<br />
 
-The data generated from *runProcess.py* will be used for statistically averaging
+The data generated from *runProcess.py* will be used for statistically averaging<br />
 
-Run **python statAnalysis.py** to obtain the averaged data using normal distribution.
-Parameters like *standard deviation* need to be adjusted
+Run **python statAnalysis.py** to obtain the averaged data using normal distribution.<br />
+Parameters like *standard deviation* need to be adjusted<br />
 
-Date: 05-26/2021
 
-**BUG:** There seems to be a bug when running from the terminal
+**Update**<br />
+Date: 05-26/2021<br />
 
-New scripts are created to generate **syPIV** images.
-All of these scripts are in **./syPIV_Analysis**
+**BUG: There seems to be a bug when running from the terminal**<br />
 
-The code is based on the formulation from [EUROPIV](https://link.springer.com/chapter/10.1007/978-3-642-18795-7_11)
-*One big difference physics wise is we keep track of particle dynamics history*
-Theoretically this should make a major difference when looking to understand particle lag
+New scripts are created to generate **syPIV** images.<br />
+All of these scripts are in **./syPIV_Analysis**<br />
 
-Note: *The images are currently implemented only for 2D Planar PIV*
+The code is based on the formulation from [EUROPIV](https://link.springer.com/chapter/10.1007/978-3-642-18795-7_11).<br />
+*One big difference physics wise is we keep track of particle dynamics history.*<br />
+Theoretically this should make a major difference when looking to understand particle lag.<br />
 
-A lot of parameters are needed for the process to work
-Most of them are described in EUROPIV documentation
-One new parameter is *my_dpi*, which is used for adjusting pixels on a matplotlib plot
+**Note: The images are currently implemented only for 2D Planar PIV**
+
+A lot of parameters are needed for the process to work.<br />
+Most of them are described in EUROPIV documentation.<br />
+One new parameter is *my_dpi*, which is used for adjusting pixels on a matplotlib plot.<br />
 
 Workflow:
 1. Paritcles are generated using **xTrack3**
