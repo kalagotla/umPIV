@@ -57,6 +57,8 @@ def multiProcess(function, x, xp, y, yp, chunksize=512):
     pool.join()
     
     I += np.sum(Itemp, axis=0)
+    
+    # Average intensity field
     I = I/len(xp)
     
     return I

@@ -49,12 +49,12 @@ def expPlane(folderpath):
     p3d.p3dFormat(X, Y, flowData, psize)
     
     # To test if the code is working uncomment below
-    # fig, ax = plt.subplots()
-    # ax.contourf(X ,Y, uPIV, np.linspace(0, 1, 100), cmap='jet')
-    # ax.set_xlabel('X(mm)')
-    # ax.set_ylabel('Y(mm)')
-    # ax.set_title('Sample output; U-contour')
-    # ax.grid()
+    fig, ax = plt.subplots()
+    ax.contourf(X ,Y, uPIV, np.linspace(0, 1, 100), cmap='jet')
+    ax.set_xlabel('X(mm)')
+    ax.set_ylabel('Y(mm)')
+    ax.set_title('Sample output; U-contour')
+    ax.grid()
     
     endTime = time.time()
     
@@ -66,5 +66,6 @@ def expPlane(folderpath):
 
 # Test run
 if __name__ == "__main__":
-    expPlane('/home/kalagodk/docStuff/xTrack3/output/umData/281/Z281.*')
+    #expPlane('/home/kalagodk/docStuff/xTrack3/output/umData/281/Z281.*')
+    expPlane('/home/kalagodk/docStuff/xTrack3/output/umData/temporalAveraging/0.1/Z281.*')
     

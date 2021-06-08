@@ -1,4 +1,5 @@
 # Ignores the follwing gird/flow data files in the folder
 *.x
 *.q
-tecplotFiles/
+cacheFiles/
+*.tif

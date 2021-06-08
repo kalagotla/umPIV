@@ -29,6 +29,7 @@ def statAnalysis(pmin=177, pmax=574, mu=281, sd=0.1):
     ax.set_title('Probability density function')
     ax.grid()
     
+    # Append all files into data to compute weighted average
     data = []
     filePath = "expPlaneData/flowData"
     with alive_bar(x.size, bar='squares') as bar:
@@ -52,13 +53,12 @@ def statAnalysis(pmin=177, pmax=574, mu=281, sd=0.1):
     avgData = (f * np.array(data).T).T
     avgData = sum(avgData)
     
-    gline1 = np.loadtxt(filePath + str(x[0]) + ".q",
-                        dtype=int, max_rows=1)
+    # Save the flow file
+    gline1 = np.loadtxt(filePath + str(x[0]) + ".q", dtype=int, max_rows=1)
     gline1 = str(gline1).strip('[]')
-    np.savetxt(filePath + ".q",
-               avgData, header=gline1, comments='')
+    np.savetxt(filePath + ".q", avgData, header=gline1, comments='')
     
-    print("Done writing! Use any girdData.x and flowData.q for visualizing")
+    print("Done writing! Use any *.x, and flowData.q for visualizing")
     
     return
 

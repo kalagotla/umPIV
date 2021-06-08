@@ -16,11 +16,11 @@ from createImage import firstImage, secondImage
 from multiProcess import multiProcess
 
 if __name__ == "__main__":
-    folderpath = "/home/kalagodk/docStuff/xTrack3/output/umData/281/Z281.*"
+    folderpath = "/home/kalagodk/docStuff/xTrack3/output/umData/temporalAveraging/0.01/Z281.*"
     startTime = time.time()
     # Magnification factor
     mfx = 50
-    mfy = 40
+    mfy = 50
     # Other variables needed for intensity field computation
     sx = 2.0  # pattern mean in x-direction in pixels
     sy = 1.6  # patterm mean in y-direction in pixels
@@ -29,11 +29,11 @@ if __name__ == "__main__":
     xres = 1280  # pixels
     yres = 1024  # pixels
     my_dpi = 96  # dots per inch used for generating images in matplotlib
-    dtime = 10e-7  # laser pulse time in sec
+    dtime = 1e-6  # laser pulse time in sec
     
     
     # Transform and filter data to exp plane
-    x, y, pSize, df = planeTransform(folderpath, frac=0.005)
+    x, y, pSize, df = planeTransform(folderpath, frac=0.75)
     
     # Compute relative intensity field and store in I
     #I = intensityField(radiusx, radiusy, x, xp, y, yp, sx, sy, frx, fry)
