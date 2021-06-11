@@ -65,7 +65,9 @@ def plotFig(x, xp, y, yp, I, xres, yres, my_dpi=96, snapNum=0):
     fig = plt.figure(figsize=[xsize, ysize], dpi=my_dpi)
     ax = plt.axes([0.0, 0.0, 1.0, 1.0])
     ax.imshow(I, cmap='gray', origin='lower')
+    ax.axis('tight')
     #ax.set_title("Image for intensities: Snap-" + str(snapNum))
+    plt.show()
    
     
     return fig, ax

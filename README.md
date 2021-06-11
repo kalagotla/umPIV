@@ -17,8 +17,6 @@ Parameters like *standard deviation* need to be adjusted<br />
 **Update**<br />
 Date: 05-26/2021<br />
 
-**BUG: There seems to be a bug when running from the terminal**<br />
-
 New scripts are created to generate **syPIV** images.<br />
 All of these scripts are in **./syPIV_Analysis**<br />
 

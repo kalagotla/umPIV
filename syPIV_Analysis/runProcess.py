@@ -14,6 +14,7 @@ from plotFig import plotFig
 from save_to_tiff import save_to_tiff
 from createImage import firstImage, secondImage
 from multiProcess import multiProcess
+import numpy as np
 
 if __name__ == "__main__":
     folderpath = "/home/kalagodk/docStuff/xTrack3/output/umData/temporalAveraging/0.01/Z281.*"
@@ -40,6 +41,9 @@ if __name__ == "__main__":
     
     # Create data for the first image
     radiusx, radiusy, x, xp, y, yp = firstImage(x, y, pSize, df, mfx, mfy)
+    # To generate hybrid first image uncomment the following lines
+    #xp = np.concatenate((xp, np.random.uniform(x.min(), x.max(), df.shape[0])))
+    #yp = np.concatenate((yp, np.random.uniform(y.min(), y.max(), df.shape[0])))
     cache = (radiusx, radiusy, x, xp, y, yp, sx, sy, frx, fry)
     # Use multi-process module to speedup the computation process
     I = multiProcess(intensityField(cache), x, xp, y, yp, chunksize=512)
