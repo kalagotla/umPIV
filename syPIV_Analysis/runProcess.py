@@ -11,10 +11,10 @@ import time
 from intensityField import intensityField
 from planeTransform import planeTransform
 from plotFig import plotFig
-from save_to_tiff import save_to_tiff
+from save_to_tiff import save_to_tiff, stack_images
 from createImage import firstImage, secondImage
 from multiProcess import multiProcess
-import numpy as np
+from localProperties import localProperties
 
 if __name__ == "__main__":
     folderpath = "/home/kalagodk/docStuff/xTrack3/output/umData/temporalAveraging/0.01/Z281.*"
@@ -28,40 +28,38 @@ if __name__ == "__main__":
     frx = 1.0  # ccd fill ratio in x-direction
     fry = 1.0  # ccd fill ratio in y-direction
     xres = 1280  # pixels
-    yres = 1024  # pixels
+    yres = 512  # pixels
     my_dpi = 96  # dots per inch used for generating images in matplotlib
-    dtime = 1e-6  # laser pulse time in sec
+    dtime = 1e-4  # laser pulse time in sec
     
     
     # Transform and filter data to exp plane
-    x, y, pSize, df = planeTransform(folderpath, frac=0.75)
-    
-    # Compute relative intensity field and store in I
-    #I = intensityField(radiusx, radiusy, x, xp, y, yp, sx, sy, frx, fry)
+    x_exp, y_exp, pSize, df = planeTransform(folderpath, frac=1)
     
     # Create data for the first image
-    radiusx, radiusy, x, xp, y, yp = firstImage(x, y, pSize, df, mfx, mfy)
+    radiusx, radiusy, x, y, xx, yy, df, dfp = firstImage(x_exp, y_exp, pSize, df, mfx, mfy)
     # To generate hybrid first image uncomment the following lines
-    #xp = np.concatenate((xp, np.random.uniform(x.min(), x.max(), df.shape[0])))
-    #yp = np.concatenate((yp, np.random.uniform(y.min(), y.max(), df.shape[0])))
-    cache = (radiusx, radiusy, x, xp, y, yp, sx, sy, frx, fry)
+    cache = (radiusx, radiusy, xx, dfp.xp, yy, dfp.yp, sx, sy, frx, fry)
     # Use multi-process module to speedup the computation process
-    I = multiProcess(intensityField(cache), x, xp, y, yp, chunksize=512)
+    I = multiProcess(intensityField(cache), xx, dfp.xp, yy, dfp.yp, chunksize=512)
     # plot the intensity field and scatter plot
-    fig, ax = plotFig(x, xp, y, yp, I, xres, yres, my_dpi, snapNum=1)
+    fig, ax = plotFig(xx, dfp.xp, yy, dfp.yp, I, xres, yres, my_dpi, snapNum=1)
     # save the intensity plot
-    save_to_tiff(fig, ax, pSize, my_dpi, snapNum=1)
+    name1 = save_to_tiff(fig, ax, pSize, my_dpi, snapNum=1)
     
     
     # Create data for second image
-    xp, yp = secondImage(pSize, df, dtime, mfx, mfy)
-    cache = (radiusx, radiusy, x, xp, y, yp, sx, sy, frx, fry)
+    dfp = localProperties(x, y, xx, yy, df, dfp)
+    xp, yp = secondImage(pSize, dfp.xp, dfp.yp, dfp.uxp, dfp.uyp, dtime, mfx, mfy)
+    cache = (radiusx, radiusy, xx, xp, yy, yp, sx, sy, frx, fry)
     # Use multi-process module to speedup the computation process
-    I = multiProcess(intensityField(cache), x, xp, y, yp, chunksize=512)
+    I = multiProcess(intensityField(cache), xx, xp, yy, yp, chunksize=512)
     # plot the intensity field and scatter plot
-    fig, ax = plotFig(x, xp, y, yp, I, xres, yres, my_dpi, snapNum=2)
+    fig, ax = plotFig(xx, xp, yy, yp, I, xres, yres, my_dpi, snapNum=2)
     # save the intensity plot
-    save_to_tiff(fig, ax, pSize, my_dpi, snapNum=2)
+    name2 = save_to_tiff(fig, ax, pSize, my_dpi, snapNum=2)
+    
+    stack_images(name1, name2, pSize)
     
     endTime = time.time()
     

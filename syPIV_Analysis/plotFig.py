@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-def plotFig(x, xp, y, yp, I, xres, yres, my_dpi=96, snapNum=0):
+def plotFig(xx, xp, yy, yp, I, xres, yres, my_dpi=96, snapNum=0):
     """
     fig, ax = plotFig(x, xp, y, yp, I, xres, yres, my_dpi, snapNum=1)
 
@@ -48,15 +48,15 @@ def plotFig(x, xp, y, yp, I, xres, yres, my_dpi=96, snapNum=0):
     
     # Plot the contour
     fig = plt.figure(figsize=[xsize, ysize], dpi=my_dpi)
-    ax = plt.axes([0.0, 0.0, 1.0, 1.0], xlim=(x.min(), x.max()),
-                  ylim=(y.min(), y.max()))
-    ax.contourf(x, y, I, cmap='jet')
+    ax = plt.axes([0.0, 0.0, 1.0, 1.0], xlim=(xx.min(), xx.max()),
+                  ylim=(yy.min(), yy.max()))
+    ax.contourf(xx, yy, I, cmap='jet')
     ax.set_title("Contour plot for intensities: Snap-" + str(snapNum))
     
     # Scatter plot
     fig = plt.figure(figsize=[xsize, ysize], dpi=my_dpi)
-    ax = plt.axes([0.0, 0.0, 1.0, 1.0], xlim=(x.min(), x.max()),
-                  ylim=(y.min(), y.max()))
+    ax = plt.axes([0.0, 0.0, 1.0, 1.0], xlim=(xx.min(), xx.max()),
+                  ylim=(yy.min(), yy.max()))
     ax.scatter(xp, yp, color='r')
     ax.grid()
     ax.set_title("Scatter plot for intensities: Snap-" + str(snapNum))

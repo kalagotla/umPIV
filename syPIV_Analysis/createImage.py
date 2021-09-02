@@ -41,22 +41,29 @@ def firstImage(x, y, pSize, df, mfx, mfy):
 
     """
     import numpy as np
-    
+    import pandas as pd
     # Make a projection onto CCD
     x = x * mfx
     y = y * mfy
-    x, y = np.meshgrid(x, y)
+    xx, yy = np.meshgrid(x, y)
     
-    xp = df.x.to_numpy() * mfx
-    yp = df.y.to_numpy() * mfy
+    # Project the particle locations from xTrack3
+    df.x = df.x * mfx
+    df.y = df.y * mfy
     
-    # Convert integer pSize to actual particle size
-    radiusx = pSize * 1e-9 * mfx / 2
-    radiusy = pSize * 1e-9 * mfy / 2
+    # Create particles in a uniform distribution on ccd
+    xp = np.random.uniform(x.min(), x.max(), df.shape[0])
+    yp = np.random.uniform(y.min(), y.max(), df.shape[0])
+    data = {'xp': xp, 'yp': yp}
+    dfp = pd.DataFrame(data)
     
-    return radiusx, radiusy, x, xp, y, yp
+    # Convert integer pSize to actual particle size in mm
+    radiusx = pSize * mfx * 1e-6 / 2
+    radiusy = pSize * mfy * 1e-6 / 2
+    
+    return radiusx, radiusy, x, y, xx, yy, df, dfp
 
-def secondImage(pSize, df, dtime, mfx, mfy):
+def secondImage(pSize, xp, yp, vxp, vyp, dtime, mfx, mfy):
     """
     xp, yp = secondImage(pSize, df, dtime, mfx, mfy)
 
@@ -85,16 +92,8 @@ def secondImage(pSize, df, dtime, mfx, mfy):
 
     """
     
-    # convert velocity to mm/s
-    df.vx = 1e3 * df.vx
-    df.vy = 1e3 * df.vy
-    
     # Calculate the shift in particle positions
-    xp = df.x + df.vx * dtime
-    yp = df.y + df.vy * dtime
-    
-    # Make a projection onto CCD plane
-    xp = xp.to_numpy() * mfx
-    yp = yp.to_numpy() * mfy
+    xp = xp + vxp * dtime
+    yp = yp + vyp * dtime
     
     return xp, yp

@@ -38,19 +38,25 @@ def planeTransform(folderpath, frac=0.5, random_state=7):
     
     df = df.compute()
     # Only use what's needed for the current computation
-    df = df.iloc[:, :6]
+    df = df.iloc[:, :9]
     
+    # Current computation is run in mm
     # Transform to experimental plane in mm
     df["x"] = 25.4 * (2.75 * df.x0 * 1000 - 38.265)
     df["y"] = 25.4 * 2.75 * df.x2 * 1000
     df["z"] = 25.4 * (2.75 * df.x1 * 1000 - 1.125)
     
-    df['vx'] = df.v0
-    df['vy'] = df.v2
-    df['vz'] = df.v1
+    # Save velocities and convert to mm/s
+    df['vx'] = df.v0 * 1e3
+    df['vy'] = df.v2 * 1e3
+    df['vz'] = df.v1 * 1e3
+    
+    df['ux'] = df.u0 * 1e3
+    df['uy'] = df.u2 * 1e3
+    df['uz'] = df.u1 * 1e3
     
     # Drop columns that are not needed for future computation
-    df.drop(np.arange(0, 6), inplace=True)
+    df.drop(np.arange(0, 9), inplace=True)
     
     # Filter the experimental plane
     df = df[(df.x.between(17.7, 65.0)) & 

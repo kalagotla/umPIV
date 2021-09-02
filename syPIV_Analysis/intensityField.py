@@ -45,9 +45,12 @@ def intensityField(cache):
     #                       erf((yc-ypc - 0.5*fry)/(sy * np.sqrt(2)))), axis=0)
     
     intensity = lambda xp, yp: (np.pi/8 * (2*radiusx) * (2*radiusy) * sx * sy *
-                        (erf((x-xp + 0.5*frx)/(sx * np.sqrt(2)))  - 
-                          erf((x-xp - 0.5*frx)/(sx * np.sqrt(2)))) * 
-                        (erf((y-yp + 0.5*fry)/(sy * np.sqrt(2)))  - 
-                          erf((y-yp - 0.5*fry)/(sy * np.sqrt(2)))))
+                                (erf((x-xp + 0.5*frx)/(sx * np.sqrt(2)))  - 
+                                 erf((x-xp - 0.5*frx)/(sx * np.sqrt(2)))) * 
+                                (erf((y-yp + 0.5*fry)/(sy * np.sqrt(2)))  - 
+                                 erf((y-yp - 0.5*fry)/(sy * np.sqrt(2)))))
+     
+    #intensity = lambda xp, yp: 1e4 * np.exp((-(x-xp)**2 - (y-yp)**2) / 
+     #                                 ((2*radiusx) * (2*radiusy)/8))
     
     return intensity
